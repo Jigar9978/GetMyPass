@@ -11,7 +11,7 @@ export default function ContactPage() {
         style={{ backgroundImage: "url('https://source.unsplash.com/1600x900/?city,skyline')" }}
       >
         <h2 className="text-3xl md:text-4xl font-extrabold">CONTACT US</h2>
-        <p className="max-w-xl mt-2 text-sm md:text-base">We're Here for You – Contact Our Support Team Today</p>    
+        <p className="max-w-xl mt-2 text-sm md:text-base">Were Here for You – Contact Our Support Team Today</p>    
       </section>
 
       {/* 📌 Contact Info (Responsive Grid) */}

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 
 
 export default function Profile() {
@@ -85,9 +86,9 @@ export default function Profile() {
           <div className="flex flex-col items-center">
             <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden relative">
               {imagePreview ? (
-                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                <Image width={500} height={128} src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
               ) : profileData.profileDetails?.avatar ? (
-                <img src={`/uploads/${profileData.profileDetails.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                <Image width={500} height={128} src={`/uploads/${profileData.profileDetails.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
                 <span className="text-gray-500">Add Image</span>
               )}

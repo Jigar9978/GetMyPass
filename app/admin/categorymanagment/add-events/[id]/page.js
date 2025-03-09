@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import Image from "next/image";
 
 const AddEvent = () => {
     const router = useRouter();
@@ -177,11 +178,16 @@ const AddEvent = () => {
                                     ❌
                                 </span>
                                 <h3 className="text-xl font-bold">{event.title}</h3>
-                                <img
+                               
+
+                                <Image
                                     src={event.image}
-                                    alt={event.name}
+                                    alt="image"
+                                    width={500}
+                                    height={128} 
                                     className="w-full h-32 object-cover mt-2 rounded-md"
                                 />
+
                                 <p className="mt-2">
                                     <strong>Discription:</strong>{event.description}</p>
                                 <p>

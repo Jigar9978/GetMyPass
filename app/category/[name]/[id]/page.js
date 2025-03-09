@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import OtpLoginModal from "@/components/OTPLoginModal";
 import UserAvatar from "@/components/UserAvatar"; // Import the UserAvatar component
+import Image from "next/image";
 
 export default function CardDetailsPage({ params }) {
   const { id, name } = React.use(params); // Get id and name from params
@@ -151,13 +152,13 @@ export default function CardDetailsPage({ params }) {
     try {
       // Check if user is logged in using localStorage
       const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; // Retrieve login status from localStorage
-  
+
       // If the user is not logged in, show the login modal and prevent further action
       if (!isLoggedIn) {
         setShowLoginModal(true);
         return; // Stop further execution if not logged in
       }
-  
+
       // Include the isLoggedIn value in the API request headers
       const response = await fetch("/api/check-login", {
         method: "GET",
@@ -166,10 +167,10 @@ export default function CardDetailsPage({ params }) {
           "X-Local-Login-Status": isLoggedIn.toString(), // Send the login status as a header
         },
       });
-  
+
       if (response.ok) {
         const data = await response.json();
-  
+
         // Check if the user is logged in (either from API or localStorage)
         if (data.loggedIn || isLoggedIn) {
           // If logged in, proceed to the booking page
@@ -188,16 +189,18 @@ export default function CardDetailsPage({ params }) {
       setShowLoginModal(true);
     }
   };
-  
-  
-  
+
+
+
 
   return (
     <div className="min-h-screen">
       {/* Event Image */}
-      <img
+      <Image
         src={card.image}
         alt="Event"
+        width={500} 
+        height={128}
         className="animate-fadeInUp shadow rounded-lg overflow-hidden border w-[800px] h-[400px] transform transition-transform duration-300 hover:scale-105 mx-auto"
       />
 
@@ -298,25 +301,25 @@ export default function CardDetailsPage({ params }) {
       {/* Fixed Price and Book Pass Button */}
       <div className="fixed bottom-0 left-0 w-full bg-purple-800 text-white flex justify-between items-center px-6 py-2">
         <div className="text-lg font-semibold">₹ {card.price} onwards</div>
-        
-        <button onClick={handleBookNow} className="book-pass-btn bg-white text-purple-800 border-2 border-purple-800 px-6 py-2 rounded-lg font-medium transform transition-all duration-300 hover:scale-105 hover:bg-purple-800 hover:text-white">
-            BOOK PASS
-          </button>
-        
-  
-      </div>
-     
-        {/* Show Avatar if logged in */}
-        {isLoggedIn && userAvatar && (
-          <UserAvatar userAvatar={userAvatar} />
-        )}
 
-        {/* OtpLoginModal */}
-        {showLoginModal && (
-           <OtpLoginModal closeModal={closeModal} handleLogin={handleLogin} />
-        )}
-       
-      
+        <button onClick={handleBookNow} className="book-pass-btn bg-white text-purple-800 border-2 border-purple-800 px-6 py-2 rounded-lg font-medium transform transition-all duration-300 hover:scale-105 hover:bg-purple-800 hover:text-white">
+          BOOK PASS
+        </button>
+
+
+      </div>
+
+      {/* Show Avatar if logged in */}
+      {isLoggedIn && userAvatar && (
+        <UserAvatar userAvatar={userAvatar} />
+      )}
+
+      {/* OtpLoginModal */}
+      {showLoginModal && (
+        <OtpLoginModal closeModal={closeModal} handleLogin={handleLogin} />
+      )}
+
+
 
       <style jsx>{`
         @keyframes fadeInUp {

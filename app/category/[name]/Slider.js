@@ -32,7 +32,7 @@ export default function EventSlider() {
       }
     };
     fetchData();
-  }, []);
+  }, [sliderName]);
 
 
   useEffect(() => {

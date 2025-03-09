@@ -2,6 +2,7 @@
 import React from 'react';
 import ClientReviewForm from "./ClientReviewForm";
 import { useState } from 'react';
+import Image from 'next/image';
     
 const Footer = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +28,7 @@ const Footer = () => {
       <div className="container mx-auto px-6 py-20 mt-12 flex flex-col md:flex-row items-center md:items-start justify-evenly">
         {/* Left - Logo */}
         <div className="flex justify-center md:justify-start mb-8 md:mb-0">
-          <img src='/logo2.png' className='h-16 md:h-20 w-64' alt="Logo" />
+          <Image width={500} height={128} src='/logo2.png' className='h-16 md:h-20 w-64' alt="Logo" />
         </div>
 
         {/* Right Section - Company, Further Info, Follow Us (Stacked on Mobile) */}

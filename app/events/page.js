@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaMapMarkerAlt, FaRupeeSign } from "react-icons/fa";
+import Image from "next/image";
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
@@ -41,7 +42,8 @@ export default function EventsPage() {
           key={event._id?.$oid || event._id} 
             className="bg-white rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:translate-y-[-5px]"
           >
-            <img src={event.image} alt={event.title} className="w-full h-48 object-cover" />
+            <Image width={500} 
+  height={128} src={event.image} alt={event.title} className="w-full h-48 object-cover" />
             <div className="p-4">
               <p className="text-sm text-gray-500">{event.date}</p>
               <h3 className="text-lg font-semibold">{event.title}</h3>

@@ -198,7 +198,7 @@ export default function FinalPrice() {
           <strong>QR Code Entry:</strong> Show the emailed QR code for hassle-free access.
         </div>
         <div className="p-3 bg-purple-50 bg-opacity-70 rounded-md border border-purple-200">
-          <strong>Manage Your Tickets:</strong> Access all your purchased tickets in the 'My Tickets' section.
+          <strong>Manage Your Tickets:</strong> Access all your purchased tickets in the My Tickets section.
         </div>
       </div>
     </motion.div>

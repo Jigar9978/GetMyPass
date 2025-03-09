@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const UserAvatar = ({ userAvatar, userName,isSidebarOpen, setIsSidebarOpen, handleLogout }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,7 +32,9 @@ const UserAvatar = ({ userAvatar, userName,isSidebarOpen, setIsSidebarOpen, hand
         {/* Sidebar Header */}
         <div className="flex items-center justify-between p-4 border-b">
           <div className="flex items-center space-x-3">
-            <img
+            <Image
+            width={500}
+            height={128}
               src={userAvatar}
               alt="User Avatar"
               className="h-12 w-12 rounded-full"

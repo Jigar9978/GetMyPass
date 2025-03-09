@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CategoryCards() {
   const [categories, setCategories] = useState([]);
@@ -42,7 +43,9 @@ export default function CategoryCards() {
             hover:scale-110 hover:shadow-2xl`}
               style={{ transitionDelay: `${index * 200}ms` }}
             >
-              <img
+              <Image
+                width={500}
+                height={128}
                 src={category.image}
                 alt={category.name}
                 className="w-full h-full object-cover"
@@ -62,7 +65,9 @@ export default function CategoryCards() {
         {filteredCategories.map((category, index) => (
           <Link href={`/category/${category.name}`} key={category._id}>
             <div className="relative min-w-[180px] h-72 rounded-2xl overflow-hidden shadow-lg flex-shrink-0">
-              <img
+              <Image
+                width={500}
+                height={128}
                 src={category.image}
                 alt={category.name}
                 className="w-full h-full object-cover"

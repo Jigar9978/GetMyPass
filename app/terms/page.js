@@ -62,7 +62,7 @@ export default function TermsAndConditions() {
             <li>Digital passes are non-transferable unless specified.</li>
             <li>Refunds are subject to event organizer policies.</li>
             <li>Passes must be shown for entry at the venue.</li>
-            <li>Entry disputes caused by scanning errors are not the platform's responsibility.</li>
+            <li>Entry disputes caused by scanning errors are not the platform&apos;s responsibility.</li>
             <li>User details are used strictly for event purposes.</li>
           </ol>
         </section>

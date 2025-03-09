@@ -6,6 +6,7 @@ import React from "react";
 import scheduleExpiredEventsDeletion from '../lib/cron';
 import Navbar from "@/components/Navbar";
 import LayoutWrapper from "@/components/LayoutWrapper";
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ["latin"] });
 

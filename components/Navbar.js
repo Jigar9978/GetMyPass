@@ -12,6 +12,7 @@ import UserAvatar from "../components/UserAvatar";
 import { searchEvents } from "@/app/actions/searchEvents";
 import { useRouter } from 'next/navigation';
 
+
 export default function Navbar() {
   const pathname = usePathname();
   const [bgStyle, setBgStyle] = useState({});
@@ -220,7 +221,7 @@ export default function Navbar() {
           <div className="flex w-full items-center justify-between">
             <div className="text-indigo-500 pt-2">
               <Link href="/">
-                <img src="/logo2.png" alt="GETMYPASS" width={170} height={40} />
+                <Image src="/logo2.png" alt="GETMYPASS" width={170} height={40} />
               </Link>
             </div>
 
@@ -257,7 +258,9 @@ export default function Navbar() {
                   className="cursor-pointer hidden md:block"
                   onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                 >
-                  <img
+                  <Image
+                  width={500}
+                  height={128}
                     src={userAvatar}
                     alt="User Avatar"
                     className="h-10 w-10 rounded-full"
@@ -350,9 +353,11 @@ export default function Navbar() {
                           className="flex items-center gap-4 w-full"
                         >
                           {/* Event Image */}
-                          <img
+                          <Image
+                          width={500}
+                          height={128}
                             src={event.image || "/default-event.jpg"} // Default image fallback
-                            alt={event.title}
+                            alt="title"
                             className="w-16 h-16 object-cover rounded-md shadow-sm"
                           />
 

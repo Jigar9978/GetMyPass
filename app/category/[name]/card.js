@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 import Link from "next/link";
 import { Navigation, Pagination, EffectCoverflow, Autoplay } from "swiper/modules";
+import Image from "next/image";
 
 const Popular = () => {
   const swiperRef = useRef(null);
@@ -92,9 +93,11 @@ const Popular = () => {
                 boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
               }}
             >
-              <img
+              <Image
                 src={card.image}
                 alt={card.title}
+                width={500} 
+                height={128}
                 className="w-full h-full object-cover"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 p-4 rounded-t-2xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 text-white">
@@ -103,9 +106,9 @@ const Popular = () => {
                 <h5 className="text-sm text-gray-400">{card.location}</h5>
                 <p className="text-md font-bold mt-1">₹{card.price}</p>
                 <Link href={`/category/popular/${encodeURIComponent(card.title)}`}>
-                <button className="mt-2 px-6 py-2 bg-[#a355b8] text-white font-semibold rounded-full transition duration-300 w-full">
-                  Buy Now
-                </button>
+                  <button className="mt-2 px-6 py-2 bg-[#a355b8] text-white font-semibold rounded-full transition duration-300 w-full">
+                    Buy Now
+                  </button>
                 </Link>
               </div>
             </div>

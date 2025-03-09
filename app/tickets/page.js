@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { FaDownload, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import ReactQRCode from 'react-qr-code';
 import { motion } from 'framer-motion';
+import Image from "next/image";
 
 const generateBookingCode = () => {
   return "BOOK-" + Math.random().toString(36).substring(2, 10).toUpperCase();
@@ -209,7 +210,8 @@ const handleSubmit = async (e) => {
                     𝐆𝐄𝐓𝐌𝐘𝐏𝐀𝐒𝐒
                   </h1>
 
-                  <img src={ticket.eventImage} alt="Event Poster" className="object-cover w-full h-36 rounded-[20px] shadow-xl" />
+                  <Image  width={500}
+  height={128} src={ticket.eventImage} alt="Event Poster" className="object-cover w-full h-36 rounded-[20px] shadow-xl" />
 
                   <div className="mt-3 flex justify-between items-center px-6">
                     <h1 className="text-xl font-extrabold">{ticket.eventName}</h1>
@@ -367,7 +369,8 @@ const handleSubmit = async (e) => {
 
         {/* Image Section */}
         <div className="w-auto flex items-center ml-5">
-          <img src="/i2.jpg" alt="Review Illustration" className="h-full max-h-96 rounded-lg shadow-lg" />
+          <Image  width={500} 
+  height={128} src="/i2.jpg" alt="Review Illustration" className="h-full max-h-96 rounded-lg shadow-lg" />
         </div>
       </div>
     </div>

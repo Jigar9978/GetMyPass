@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 const AdminPanel = () => {
     const router = useRouter();
@@ -61,7 +62,7 @@ const AdminPanel = () => {
 
     const deleteCategory = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this category?");
-        if (!confirmDelete) return; 
+        if (!confirmDelete) return;
 
         const res = await fetch(`/api/categories/${id}`, {
             method: "DELETE",
@@ -114,11 +115,14 @@ const AdminPanel = () => {
                             <h3 className="text-xl font-bold flex items-center gap-2">
                                 {category.icon} {category.name}
                             </h3>
-                            <img
+                            <Image
                                 src={category.image}
-                                alt={category.name}
+                                alt="image"
+                                width={500} // Adjust as needed
+                                height={128} // Adjust as needed
                                 className="w-full h-32 object-cover mt-2 rounded-md"
                             />
+
                             <div className="mt-4 flex gap-2">
                                 <button
                                     onClick={() => handleEditClick(category)}

@@ -2,6 +2,7 @@ import clientPromise from '../../../lib/mongodb'; // Correct import of MongoDB c
 import Link from 'next/link'; // Ensure Link is imported
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { FaRupeeSign } from 'react-icons/fa';
+import Image from 'next/image';
 
 // Function that fetches data
 export default async function CategoryPage({ params }) {
@@ -21,7 +22,7 @@ export default async function CategoryPage({ params }) {
     if (!categoryData || !categoryData.cards || categoryData.cards.length === 0) {
       return (
         <div className="text-center mt-10">
-          <h1 className="text-3xl font-bold">No events found for category "{name}"</h1>
+          <h1 className="text-3xl font-bold">No events found for category {name}</h1>
         </div>
       );
     }
@@ -33,7 +34,8 @@ export default async function CategoryPage({ params }) {
           {categoryData.cards.map((event) => (
             <div key={event.title} className="w-full bg-white snap-center rounded-lg overflow-hidden shadow-md transition-transform duration-300 min-w-[250px] hover:translate-y-[-10px]">
               <div className="bg-gray-700 h-48 w-full">
-                <img src={event.image} alt={event.title} className="w-full h-full object-cover rounded-md"/>
+                <Image src={event.image} alt={event.title} width={500} 
+  height={128} className="w-full h-full object-cover rounded-md"/>
               </div>
               <p className="mt-2 pl-3 text-sm text-gray-500">{event.date}</p>
               <h3 className="mt-1 pl-3 text-lg font-semibold text-gray-800">{event.title}</h3>
