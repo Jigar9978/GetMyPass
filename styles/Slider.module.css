@@ -1,0 +1,87 @@
+/* slider.css */
+
+/* General Image Rendering Settings */
+
+/* Fade-in animation for large image */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Circular Thumbnails Styling */
+.circular-thumbnails {
+  position: absolute;
+  bottom: 20px; /* Position the thumbnails closer to the bottom */
+  left: 50%; /* Center the thumbnails horizontally */
+  transform: translateX(-50%); /* Adjust for centering */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  border: 4px solid white;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, z-index 0.3s ease;
+}
+
+.thumbnail.front {
+  z-index: 3;
+  transform: scale(1.2); /* Make the center thumbnail larger */
+}
+
+.thumbnail.left,
+.thumbnail.right {
+  z-index: 2;
+  transform: scale(0.9); /* Make left and right thumbnails smaller */
+}
+
+.thumbnail:hover {
+  transform: scale(1.3); /* Slight zoom on hover */
+  z-index: 4;
+}
+
+/* Highlight Button */
+.highlight-btn {
+  background: linear-gradient(90deg, #d1c4e9, #b39ddb); /* Gradient */
+  color: white;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 8px 15px rgba(179, 157, 219, 0.3); /* Glow effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.highlight-btn:hover {
+  transform: scale(1.1); /* Slight zoom on hover */
+  box-shadow: 0 12px 25px rgba(179, 157, 219, 0.6); /* Stronger glow */
+}
+
+/* Prevent image blurring */
+.object-cover {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Strong Text Shadow for Highlight */
+.text-shadow-strong {
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9),
+    4px 4px 4px rgba(255, 255, 255, 0.6); /* High contrast shadow */
+}

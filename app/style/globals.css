@@ -1,0 +1,72 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: linear-gradient(to bottom right, #E7DBEF, #6E3482);
+  }
+  
+  /* Avatar animation */
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  .avatar {
+    animation: bounce 2s infinite;
+  }
+  
+  /* OTP input styling */
+  .otp-box {
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #6E3482;
+    border: 2px solid #A56ABD;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .otp-box:focus {
+    border-color: #E7DBEF;
+    background-color: #49225B;
+  }
+  
+  /* Button hover animation */
+  .btn-hover:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  /* Transition effects for OTP Section */
+  #otpSection {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+  }
+  
+  #otpSection.flex {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Smooth hide for login section */
+  #loginSection.hidden {
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+  }
+  
