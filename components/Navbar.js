@@ -259,7 +259,7 @@ export default function Navbar() {
               ) : (
                 <button
                   onClick={() => setShowModal(true)} // Show Modal on click
-                  className="bg-white text-purple-600 px-4 py-2 rounded-full font-medium hover:scale-105 transition-transform duration-300 flex items-center"
+                  className="md:hidden bg-white text-purple-600 px-4 py-2 rounded-full font-medium hover:scale-105 transition-transform duration-300 flex items-center"
                 >
                   <FaUser className="mr-2" />
                   Login
