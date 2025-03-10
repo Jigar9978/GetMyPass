@@ -36,21 +36,41 @@ const AdminPanel = () => {
         const formData = new FormData();
         formData.append("name", selectedCategory.name);
         formData.append("icon", selectedCategory.icon);
-
+    
+        let imageUrl = selectedCategory.image; // पहले से मौजूद इमेज URL
+    
         if (selectedCategory.imageFile) {
-            formData.append("image", selectedCategory.imageFile);
-        } else {
-            formData.append("image", selectedCategory.image); // Existing image URL
+            // Cloudinary API को इमेज अपलोड करें
+            const imageFormData = new FormData();
+            imageFormData.append("file", selectedCategory.imageFile);
+            imageFormData.append("upload_preset", "your_upload_preset"); // Cloudinary Upload Preset
+    
+            const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/your_cloud_name/image/upload`, {
+                method: "POST",
+                body: imageFormData,
+            });
+    
+            const uploadData = await uploadRes.json();
+            imageUrl = uploadData.secure_url; // Cloudinary से मिला इमेज URL
         }
-
+    
+        formData.append("image", imageUrl); // Cloudinary से मिला URL या पहले से मौजूद इमेज
+    
         const method = isEditing ? "PUT" : "POST";
         const url = isEditing ? `/api/categories/${selectedCategory._id}` : "/api/categories";
-
+    
         const res = await fetch(url, {
             method,
-            body: formData,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: selectedCategory.name,
+                icon: selectedCategory.icon,
+                image: imageUrl, // अब इमेज Cloudinary URL होगी
+            }),
         });
-
+    
         if (res.ok) {
             fetchCategories();
             setIsAdding(false);
@@ -58,6 +78,7 @@ const AdminPanel = () => {
             setSelectedCategory({});
         }
     };
+    
 
 
     const deleteCategory = async (id) => {
