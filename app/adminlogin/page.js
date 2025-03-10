@@ -17,8 +17,6 @@ const LoginPage = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // If you need to send a token, include it in the headers
-          'Authorization': `Bearer ${yourAuthToken}`,  // Replace with actual token
         },
         body: JSON.stringify({ email, password }),
       });
@@ -47,6 +45,8 @@ const LoginPage = () => {
       alert('An error occurred during login');
     }
   };
+  
+  
   
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-[#1a1a2e] p-4 overflow-hidden">
