@@ -5,6 +5,7 @@ export async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const { email, password } = req.body;
+      console.log("Email:", email, "Password:", password); 
 
       // Check if email or password is missing
       if (!email || !password) {
