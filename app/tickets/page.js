@@ -369,8 +369,8 @@ const handleSubmit = async (e) => {
 
         {/* Image Section */}
         <div className="w-auto flex items-center ml-5">
-          <Image  width={500} 
-  height={128} src="/i2.jpg" alt="Review Illustration" className="h-full max-h-96 rounded-lg shadow-lg" />
+          <Image  width={300} 
+  height={128} src="/review1.png" alt="Review Illustration" className="h-full max-h-96 rounded-lg shadow-lg" />
         </div>
       </div>
     </div>

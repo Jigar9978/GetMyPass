@@ -28,25 +28,25 @@ export default function HorizontalSlider() {
     {
       title: 'Pass Security',
       text: 'Every pass is equipped with a unique QR code generated using encrypted algorithms for maximum security.',
-      img: '/image1.png',
+      img: '/feture1.png',
       bg: ' bg-[#49243E]'
     },
     {
       title: 'Effortless Digital Passes',
       text: 'Streamlined digital passes provide a seamless and user-friendly experience for event organizers and attendees.',
-      img: '/image2.png',
+      img: '/feture2.png',
       bg: 'bg-[#704264]'
     },
     {
       title: 'Convenient Event Ticket',
       text: 'Tickets can be purchased within minutes through an intuitive online platform, removing the hassle of physical outlets.',
-      img: '/image3.png',
+      img: '/feture3.png',
       bg: 'bg-[#BB8493]'
     },
     {
       title: 'Custom Branding for Event Organizers',
       text: 'Personalized ticket designs with logos and themes for enhanced branding.',
-      img: '/image4.png',
+      img: '/feture4.png',
       bg: 'bg-[#DBAFA0]'
     }
   ];
@@ -77,7 +77,7 @@ export default function HorizontalSlider() {
                 <h2 className="text-xl md:text-2xl font-bold">{card.title}</h2>
                 <p className="text-sm md:text-base mt-2">{card.text}</p>
               </div>
-              <Image src={card.img} alt={card.title} width={120} height={120} className="w-24 h-24 md:w-28 md:h-28 group-hover:scale-110 transition-transform duration-300" />
+              <Image src={card.img} alt={card.title} width={120} height={120} className="w-44 h-56 md:w-28 md:h-28 group-hover:scale-110 transition-transform duration-300" />
             </div>
           ))}
         </div>

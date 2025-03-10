@@ -14,7 +14,7 @@ export async function middleware(req) {
       url.pathname = '/adminlogin';  // Redirect to login
       return NextResponse.redirect(url);
     }
-    return NextResponse.next(); // Allow other paths
+    return NextResponse.next(); // Allow other paths    
   }
 
   try {
