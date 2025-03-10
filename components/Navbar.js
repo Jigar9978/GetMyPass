@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef ,useCallback} from 'react';
 import { FaSearch, FaUser, FaBars, FaTimes } from "react-icons/fa";
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -61,25 +61,9 @@ export default function Navbar() {
   }, [isSearchOpen]);
 
 
-
-  useEffect(() => {
-    // LocalStorage se data retrieve karna
-    const storedLoginState = localStorage.getItem("isLoggedIn"); // Correct key
-    const storedAvatar = localStorage.getItem("userAvatar");
-
-    if (storedLoginState === "true") {
-      setIsLoggedIn(true); // Login state true set karna
-      setUserAvatar(storedAvatar || "/n.jpg"); // Avatar set karna
-      fetchUserProfile(); // Fetch user profile data if logged in
-    }
-  }, [fetchUserProfile]);
-
-
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async () => {
     try {
-      // Retrieve the phone number from the cookie
       const phoneNumber = getCookieValue("loggedInPhoneNumber");
-
       if (!phoneNumber) {
         console.error("No phone number found in cookies.");
         return;
@@ -91,15 +75,10 @@ export default function Navbar() {
 
       const data = await response.json();
 
-
       if (data.success && data.profile) {
-        // Access the profile details from the response
         const profileDetails = data.profile.profileDetails;
-
         if (profileDetails) {
-          console.log("Profile details:", profileDetails); // Log profile details
-
-          // Handle avatar and name
+          console.log("Profile details:", profileDetails);
           const avatarPath = profileDetails.avatar
             ? `/uploads/${profileDetails.avatar.replace(/\s+/g, "%20")}`
             : "/n.jpg";
@@ -111,7 +90,18 @@ export default function Navbar() {
     } catch (error) {
       console.error("Failed to fetch user profile:", error);
     }
-  };
+  }, []); // Correctly providing empty array here to memoize function
+
+  useEffect(() => {
+    const storedLoginState = localStorage.getItem("isLoggedIn");
+    const storedAvatar = localStorage.getItem("userAvatar");
+
+    if (storedLoginState === "true") {
+      setIsLoggedIn(true);
+      setUserAvatar(storedAvatar || "/n.jpg");
+      fetchUserProfile();
+    }
+  }, [fetchUserProfile]);
 
 
   const getCookieValue = (cookieName) => {

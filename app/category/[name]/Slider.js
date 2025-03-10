@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect ,useCallback} from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -35,24 +35,26 @@ export default function EventSlider() {
   }, [sliderName]);
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [currentIndex, slides.length ,nextSlide]);
-
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     if (slides.length > 0) {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
     }
-  };
-  
+  }, [slides.length]); // Dependency on slides.length
+
   const prevSlide = () => {
     if (slides.length > 0) {
       setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [nextSlide]); 
+
+
   
 
   if (loading) {
