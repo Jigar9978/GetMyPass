@@ -13,7 +13,7 @@ const LoginPage = () => {
     e.preventDefault();
   
     try {
-      const res = await fetch('https://get-my-pass-git-main-jigarmaratha50-gmailcoms-projects.vercel.app/api/admin/login', {
+      const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
