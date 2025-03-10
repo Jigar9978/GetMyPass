@@ -258,12 +258,13 @@ export default function Navbar() {
                 </div>
               ) : (
                 <button
-                  onClick={() => setShowModal(true)} // Show Modal on click
-                  className="bg-white text-purple-600 px-4 py-2 rounded-full font-medium hover:scale-105 transition-transform duration-300 flex items-center sm:hidden"
-                >
-                  <FaUser className="mr-2" />
-                  Login
-                </button>
+                onClick={() => setShowModal(true)} // Show Modal on click
+                className="bg-white text-purple-600 px-4 py-2 rounded-full font-medium hover:scale-105 transition-transform duration-300 items-center hidden md:flex"
+              >
+                <FaUser className="mr-2" />
+                Login
+              </button>
+              
               )}
             </div>
           </div>
