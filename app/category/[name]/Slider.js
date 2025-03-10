@@ -40,7 +40,7 @@ export default function EventSlider() {
       nextSlide();
     }, 5000);
     return () => clearInterval(interval);
-  }, [currentIndex, slides.length]);
+  }, [currentIndex, slides.length ,nextSlide]);
 
   const nextSlide = () => {
     if (slides.length > 0) {

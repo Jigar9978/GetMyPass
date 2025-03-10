@@ -72,7 +72,7 @@ export default function Navbar() {
       setUserAvatar(storedAvatar || "/n.jpg"); // Avatar set karna
       fetchUserProfile(); // Fetch user profile data if logged in
     }
-  }, []);
+  }, [fetchUserProfile]);
 
 
   const fetchUserProfile = async () => {

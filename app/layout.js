@@ -21,11 +21,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
       <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
-      <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload"/>
       </head>
       <body className={inter.className}>
       <LayoutWrapper>{children}</LayoutWrapper>
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+        <Script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js" strategy="lazyOnload"/>
       </body>
     </html>
   );
