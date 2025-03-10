@@ -11,31 +11,32 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const res = await fetch('/api/admin/login', { // use relative URL for dev/local
+      const res = await fetch('https://get-my-pass-git-main-jigarmaratha50-gmailcoms-projects.vercel.app/api/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          // If you need to send a token, include it in the headers
+          'Authorization': `Bearer ${yourAuthToken}`,  // Replace with actual token
         },
         body: JSON.stringify({ email, password }),
       });
-
-      // Check if the response is okay
+  
       if (!res.ok) {
         const errorData = await res.json();
         alert(errorData.error || 'Login failed');
         return;
       }
-
+  
       const data = await res.json();
       console.log(data);  // Log the response to check if token is there
-
+  
       if (data.token) {
         // Store token in localStorage
         localStorage.setItem('token', data.token);
         console.log("Token stored:", data.token);  // Check if token is stored
-
+  
         // Redirect using Next.js router
         router.push('/admin');  // Redirect to protected page
       } else {
@@ -46,7 +47,7 @@ const LoginPage = () => {
       alert('An error occurred during login');
     }
   };
-
+  
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-[#1a1a2e] p-4 overflow-hidden">
       {/* Animated Background */}
