@@ -1,6 +1,5 @@
 import connectToDatabase from '@/lib/mongo';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 
 export async function POST(req) {
   try {
@@ -15,12 +14,10 @@ export async function POST(req) {
     const db = client.db();
 
     // Find admin by email
-    const admin = await db.collection('admins').findOne({ email: email.toLowerCase() });
-    if (!admin || !(await bcrypt.compare(password, admin.password))) {
+    const admin = await db.collection('admins').findOne({ email });
+    if (!admin) {
       return new Response(JSON.stringify({ error: 'Invalid email or password' }), { status: 401 });
     }
-    console.log(admin)
-    console.log(admin.password)
 
     // Directly compare entered password with the stored password in database
     if (password !== admin.password) {
