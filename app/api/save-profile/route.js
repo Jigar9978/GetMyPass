@@ -1,8 +1,9 @@
 import { writeFile } from "fs/promises";
 import path from "path";
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb"; // 🟢 इसे सही तरीके से इम्पोर्ट करो
-import User from "@/models/User"; // तुम्हारे यूजर मॉडल को इम्पोर्ट करो
+import clientPromise from "@/lib/mongodb"; 
+
+export const runtime = "nodejs"; 
 
 export async function POST(req) {
   try {
@@ -33,12 +34,15 @@ export async function POST(req) {
     if (imageFile && imageFile.name) {
       const bytes = await imageFile.arrayBuffer();
       imageName = `${Date.now()}-${imageFile.name}`;
-      const imagePath = path.join(process.cwd(), "public/uploads", imageName);
+      
+      // ✅ Fix: Use /tmp for Vercel
+      const imagePath = path.join("/tmp", imageName); 
       await writeFile(imagePath, Buffer.from(bytes));
     }
 
     // 🟢 MongoDB से कनेक्ट करें
-    const { db } = await connectToDatabase();
+    const client = await clientPromise;
+    const db = client.db("events");
 
     // 🟢 प्रोफाइल अपडेट करो या नया बनाओ
     const updatedProfile = await db.collection("profiles").findOneAndUpdate(
@@ -69,7 +73,7 @@ export async function POST(req) {
     return NextResponse.json({ success: true, message: "Profile updated successfully", profile: updatedProfile });
 
   } catch (error) {
-    console.error("Error saving profile:", error);
+    console.error("Error saving profile:", error.message, error.stack);
     return NextResponse.json({ success: false, message: "Server error" }, { status: 500 });
   }
 }
