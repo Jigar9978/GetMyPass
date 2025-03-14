@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import clientPromise from "@/lib/mongodb"; 
+import clientPromise from "@/lib/mongodb";
+
+export const runtime = "nodejs"; 
 
 export async function GET(req) {
   try {
@@ -10,12 +12,16 @@ export async function GET(req) {
       return NextResponse.json({ success: false, message: "Phone number is required!" }, { status: 400 });
     }
 
-    // Trim करके, अगर `+` नहीं है तो जोड़ो और spaces हटा दो
     phoneNumber = `+${phoneNumber.trim().replace(/\s/g, '')}`;
 
-  
+    console.log("Searching phoneNumber:", phoneNumber); // ✅ Debugging
 
     const client = await clientPromise;
+    if (!client) {
+      console.error("MongoDB client is not connected!");
+      return NextResponse.json({ success: false, message: "Database connection error!" }, { status: 500 });
+    }
+
     const db = client.db("events");
     const collection = db.collection("profiles");
 
@@ -28,7 +34,7 @@ export async function GET(req) {
     return NextResponse.json({ success: true, profile: user }, { status: 200 });
 
   } catch (error) {
-    console.error("Error fetching profile:", error);
+    console.error("Error fetching profile:", error.message, error.stack);
     return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
   }
 }
