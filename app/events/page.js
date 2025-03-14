@@ -39,7 +39,7 @@ export default function EventsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {events.map((event) => (
           <div
-          key={event._id?.$oid || event._id} 
+          key={event._id ? event._id.toString() : event.title} 
             className="bg-white rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:translate-y-[-5px]"
           >
             <Image width={500} 
