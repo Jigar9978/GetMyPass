@@ -35,19 +35,20 @@ const AddEvent = () => {
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
+    
         const formData = new FormData();
-        formData.append("image", file);
-
+        formData.append("file", file);
+        formData.append("upload_preset", "my_upload_preset"); // 🔹 Cloudinary का सही Upload Preset डालें
+    
         try {
-            const res = await fetch(`/api/categories/${id}/events/upload`, {
+            const res = await fetch("https://api.cloudinary.com/v1_1/ddof1f89l/image/upload", {
                 method: "POST",
                 body: formData,
             });
-
+    
             const data = await res.json();
             if (res.ok) {
-                setSelectedEvent({ ...selectedEvent, image: data.imageUrl });
+                setSelectedEvent({ ...selectedEvent, image: data.secure_url }); // ✅ Cloudinary Image URL Set करें
             } else {
                 alert("Image upload failed");
             }
@@ -56,20 +57,25 @@ const AddEvent = () => {
             alert("Something went wrong!");
         }
     };
+    
+    
 
 
     const saveEvent = async () => {
+        if (!selectedEvent.image || !selectedEvent.image.startsWith("https://res.cloudinary.com")) {
+            alert("Please upload an image first!");
+            return;
+        }
+    
         if (id) {
-            let eventToSave = { ...selectedEvent };
-
             const res = await fetch(`/api/categories/${id}/events`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(eventToSave), // Image URL included in selectedEvent
+                body: JSON.stringify(selectedEvent),
             });
-
+    
             if (res.ok) {
                 const newEvent = await res.json();
                 setEvents([...events, newEvent]);
@@ -80,31 +86,41 @@ const AddEvent = () => {
             }
         }
     };
+    
+    
 
 
 
     const updateEvent = async () => {
         if (selectedEvent && selectedEvent._id) {
-            const res = await fetch(`/api/categories/${id}/events/${selectedEvent._id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(selectedEvent),
-            });
-
-            if (res.ok) {
-                const updatedEvent = await res.json();
-                setEvents(events.map((event) =>
-                    event._id === selectedEvent._id ? updatedEvent : event
-                ));
-                setIsEditing(false);
-                setSelectedEvent(null);
+            // Ensure that the selectedEvent includes the Cloudinary image URL
+            if (selectedEvent.image && selectedEvent.image.includes("cloudinary")) {
+                // If the image is from Cloudinary, we can proceed with updating the event
+                const res = await fetch(`/api/categories/${id}/events/${selectedEvent._id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(selectedEvent), // Sending the event data including Cloudinary image
+                });
+    
+                if (res.ok) {
+                    const updatedEvent = await res.json();
+                    setEvents(events.map((event) =>
+                        event._id === selectedEvent._id ? updatedEvent : event
+                    ));
+                    setIsEditing(false);
+                    setSelectedEvent(null);
+                } else {
+                    alert("Failed to update event");
+                }
             } else {
-                alert("Failed to update event");
+                // Handle case where image is not from Cloudinary (if it's still empty or invalid)
+                alert("Invalid or missing image URL. Please ensure the image is uploaded correctly.");
             }
         }
     };
+    
 
     const deleteEvent = (eventId) => {
         console.log("Deleting event with ID:", eventId); // Debugging के लिए

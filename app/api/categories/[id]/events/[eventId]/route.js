@@ -1,10 +1,12 @@
 import { connectToDatabase } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 
-// ✅ Update Event API (PUT)
+// ✅ Update Event API (PUT) with Cloudinary Image URL Update
 export async function PUT(req, { params }) {
-    const { id, eventId } = await params; // Category ID and Event ID from URL
+    const { id, eventId } = params; // Category ID and Event ID from URL
     const data = await req.json();
+
+    console.log("Received data:", data); // Log the received data for debugging
 
     try {
         const { db } = await connectToDatabase(); // ✅ Correctly destructure db
@@ -14,22 +16,63 @@ export async function PUT(req, { params }) {
         const categoryObjectId = new ObjectId(id);
         const eventObjectId = new ObjectId(eventId);
 
-        // ✅ Update the event inside the "cards" array
-        const result = await collection.updateOne(
-            { _id: categoryObjectId, "cards._id": eventObjectId },
-            { $set: { "cards.$": { ...data, _id: eventObjectId } } } // ✅ Keep same _id
-        );
+        // ✅ Check if the image URL is from Cloudinary
+        if (data.image && data.image.includes("cloudinary")) {
+            // If the image URL is from Cloudinary, we update the image field
+            const updatedData = {
+                ...data, // Keep the rest of the data
+                image: data.image // Cloudinary image URL will be updated
+            };
 
-        if (result.modifiedCount === 1) {
-            return new Response(JSON.stringify(data), { status: 200 });
+            // ✅ Update the event inside the "cards" array with Cloudinary image
+            const result = await collection.updateOne(
+                { _id: categoryObjectId, "cards._id": eventObjectId }, // Find the event inside the cards array
+                { 
+                    $set: { 
+                        "cards.$": { 
+                            ...updatedData, // Spread the updated data (with Cloudinary URL)
+                            _id: eventObjectId // Ensure the _id stays the same
+                        } 
+                    }
+                }
+            );
+
+            console.log("Update result:", result); // Log the result of the update operation
+
+            if (result.modifiedCount === 1) {
+                return new Response(JSON.stringify(updatedData), { status: 200 });
+            } else {
+                return new Response("Error updating event", { status: 400 });
+            }
         } else {
-            return new Response("Error updating event", { status: 400 });
+            // If there is no Cloudinary image URL, just update the event without changing the image
+            const result = await collection.updateOne(
+                { _id: categoryObjectId, "cards._id": eventObjectId },
+                { 
+                    $set: { 
+                        "cards.$": { 
+                            ...data, 
+                            _id: eventObjectId // Keep the original _id
+                        } 
+                    }
+                }
+            );
+
+            console.log("Update result:", result); // Log the result of the update operation
+
+            if (result.modifiedCount === 1) {
+                return new Response(JSON.stringify(data), { status: 200 });
+            } else {
+                return new Response("Error updating event", { status: 400 });
+            }
         }
     } catch (error) {
         console.error("PUT Error:", error);
-        return new Response("Database error", { status: 500 });
+        return new Response(`Database error: ${error.message}`, { status: 500 });
     }
 }
+
+
 
 // ✅ Delete Event API (DELETE)
 export async function DELETE(req, { params }) {

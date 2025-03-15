@@ -24,8 +24,16 @@ const AdminPanel = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        console.log(`Updating ${name} to ${value}`); // Debugging
         setSelectedCategory({ ...selectedCategory, [name]: value });
     };
+    
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        console.log('Selected file:', file); // Debugging
+        setSelectedCategory({ ...selectedCategory, imageFile: file });
+    };
+    
 
     const addCategory = () => {
         setIsAdding(true);
@@ -36,21 +44,19 @@ const AdminPanel = () => {
         const formData = new FormData();
         formData.append("name", selectedCategory.name);
         formData.append("icon", selectedCategory.icon);
-
+    
         if (selectedCategory.imageFile) {
-            formData.append("image", selectedCategory.imageFile);
-        } else {
-            formData.append("image", selectedCategory.image); // Existing image URL
+            formData.append("image", selectedCategory.imageFile);  // imageFile should be set by the file input
         }
-
+    
         const method = isEditing ? "PUT" : "POST";
         const url = isEditing ? `/api/categories/${selectedCategory._id}` : "/api/categories";
-
+    
         const res = await fetch(url, {
             method,
             body: formData,
         });
-
+    
         if (res.ok) {
             fetchCategories();
             setIsAdding(false);
@@ -58,6 +64,7 @@ const AdminPanel = () => {
             setSelectedCategory({});
         }
     };
+    
 
 
     const deleteCategory = async (id) => {
@@ -169,6 +176,7 @@ const AdminPanel = () => {
                                 onChange={(e) => setSelectedCategory({ ...selectedCategory, imageFile: e.target.files[0] })}
                                 className="w-full px-3 py-2 mb-4 border rounded-md"
                             />
+
 
                             <div className="flex justify-end gap-4">
                                 <button

@@ -19,7 +19,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userAvatar, setUserAvatar] = useState("/n.jpg"); // User avatar image
+  const [userAvatar, setUserAvatar] = useState("/avtar.jpg"); // User avatar image
   const [userName, setUserName] = useState("Hii,user");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
@@ -81,7 +81,7 @@ export default function Navbar() {
           console.log("Profile details:", profileDetails);
           const avatarPath = profileDetails.avatar
             ? `/uploads/${profileDetails.avatar.replace(/\s+/g, "%20")}`
-            : "/n.jpg";
+            : "/avtar.jpg";
 
           setUserAvatar(avatarPath);
           setUserName(profileDetails.name || "User");
@@ -98,7 +98,7 @@ export default function Navbar() {
 
     if (storedLoginState === "true") {
       setIsLoggedIn(true);
-      setUserAvatar(storedAvatar || "/n.jpg");
+      setUserAvatar(storedAvatar || "/avtar.jpg");
       fetchUserProfile();
     }
   }, [fetchUserProfile]);
@@ -119,7 +119,7 @@ export default function Navbar() {
     setIsLoggedIn(true); // Login state ko update karna
     setUserAvatar("/n.jpg"); // Avatar set karna
     localStorage.setItem("isLoggedIn", "true"); // Login state ko save karna
-    localStorage.setItem("userAvatar", "/n.jpg"); // Avatar ko save karna
+    localStorage.setItem("userAvatar", "/avtar.jpg"); // Avatar ko save karna
   };
 
   const handleLogout = async () => {
@@ -174,7 +174,7 @@ export default function Navbar() {
 
       // State अपडेट करो
       setIsLoggedIn(false);
-      setUserAvatar("/n.jpg");
+      setUserAvatar("/avtar.jpg");
 
 
       // Redirect to home page

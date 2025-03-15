@@ -1,6 +1,4 @@
-// app/api/categories/[id]/events/route.js
-
-import { connectToDatabase } from "@/lib/mongodb"; // MongoDB connection helper
+import { connectToDatabase } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 
 const getDatabase = async () => {
@@ -8,31 +6,41 @@ const getDatabase = async () => {
   return db;
 };
 
-// ✅ Add Event API (Now with _id)
 export async function POST(req, { params }) {
-  const { id } = await params;
-  const eventData = await req.json();
+  try {
+    const { id } = await params;
+    const eventData = await req.json();
 
-  // ✅ Ensure event has a unique _id
-  const newEvent = {
-    _id: new ObjectId(), // 👈 Generate unique MongoDB ObjectId
-    ...eventData,
-  };
+    if (!eventData.image || !eventData.image.startsWith("https://res.cloudinary.com")) {
+      return new Response(JSON.stringify({ error: "Invalid Image URL" }), { status: 400 });
+    }
 
-  const db = await getDatabase();
-  const categoriesCollection = db.collection("categories");
+    const newEvent = {
+      _id: new ObjectId(),
+      ...eventData,
+    };
 
-  const updateResult = await categoriesCollection.updateOne(
-    { _id: new ObjectId(id) },
-    { $push: { cards: newEvent } } // 👈 Now pushing event with _id
-  );
+    const db = await getDatabase();
+    const categoriesCollection = db.collection("categories");
 
-  if (updateResult.modifiedCount === 0) {
-    return new Response("Failed to add event", { status: 500 });
+    const updateResult = await categoriesCollection.updateOne(
+      { _id: new ObjectId(id) },
+      { $push: { cards: newEvent } }
+    );
+
+    if (updateResult.modifiedCount === 0) {
+      return new Response(JSON.stringify({ error: "Failed to add event" }), { status: 500 });
+    }
+
+    return new Response(JSON.stringify(newEvent), { status: 201 });
+
+  } catch (error) {
+    console.error("Error saving event:", error);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
   }
-
-  return new Response(JSON.stringify(newEvent), { status: 201 }); // 👈 Returning event with _id
 }
+
+
 
 // ✅ Get Events API
 export async function GET(req, { params }) {
