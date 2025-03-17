@@ -36,20 +36,21 @@ export default function Profile() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImageFile(file);
-      // Generate image preview
+      setImageFile(file); // Set the selected file
+      
+      // Generate image preview using FileReader
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result);
+        setImagePreview(reader.result); // Set the preview image once loaded
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file); // Read the file as Data URL (base64)
     }
   };
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formData = new FormData();
     formData.append("email", e.target.email.value);
     formData.append("phoneNumber", e.target.phoneNumber.value);
@@ -63,21 +64,57 @@ export default function Profile() {
     formData.append("city", e.target.city.value);
     formData.append("state", e.target.state.value);
     formData.append("pincode", e.target.pincode.value);
-
-    // 🟢 Image Upload
-    if (imageFile) {
-      formData.append("avatar", imageFile);
+  
+    try {
+      let avatarUrl = null;
+  
+      // 🟢 Upload Image to Cloudinary
+      if (imageFile) {
+        const imageFormData = new FormData();
+        imageFormData.append("file", imageFile);
+        imageFormData.append("upload_preset", "my_upload_preset"); // 🔹 Change to your Cloudinary preset
+  
+        const cloudinaryResponse = await fetch(
+          "https://api.cloudinary.com/v1_1/ddof1f89l/image/upload", // 🔹 Replace with your Cloudinary details
+          {
+            method: "POST",
+            body: imageFormData,
+          }
+        );
+  
+        const cloudinaryData = await cloudinaryResponse.json();
+  
+        console.log("Cloudinary Response:", cloudinaryData);  // Log Cloudinary response to check
+  
+        if (cloudinaryData.secure_url) {
+          avatarUrl = cloudinaryData.secure_url; // ✅ Get image URL here
+          console.log("Cloudinary Image URL:", avatarUrl);  // Log the secure URL
+        } else {
+          console.error("Error: No secure URL received from Cloudinary");
+        }
+      }
+  
+      if (avatarUrl) {
+        formData.append("avatar", avatarUrl);  // Attach the URL to FormData
+      }
+  
+      console.log("FormData before sending:", formData);  // Log FormData to check if avatar is appended
+  
+      // 🟢 Send data to backend
+      const response = await fetch("/api/save-profile", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const result = await response.json();
+      alert(result.message);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong. Please try again.");
     }
-
-    const response = await fetch("/api/save-profile", {
-      method: "POST",
-      body: formData,
-    });
-
-    const result = await response.json();
-    alert(result.message);
   };
 
+  
 
   return (
     <div className="bg-gray-100 p-4 min-h-screen flex justify-center items-center">
@@ -88,7 +125,7 @@ export default function Profile() {
               {imagePreview ? (
                 <Image width={500} height={128} src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
               ) : profileData.profileDetails?.avatar ? (
-                <Image width={500} height={128} src={`/uploads/${profileData.profileDetails.avatar}`} alt="Avatar" className="w-full h-full object-cover" />
+                <Image width={500} height={128} src={profileData.profileDetails.avatar} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
                 <span className="text-gray-500">Add Image</span>
               )}

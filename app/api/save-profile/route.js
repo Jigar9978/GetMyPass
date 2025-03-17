@@ -1,8 +1,6 @@
-import { writeFile } from "fs/promises";
-import path from "path";
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb"; // 🟢 इसे सही तरीके से इम्पोर्ट करो
-import User from "@/models/User"; // तुम्हारे यूजर मॉडल को इम्पोर्ट करो
+import { connectToDatabase } from "@/lib/mongodb";
+import cloudinary from "@/lib/cloudinary";
 
 export async function POST(req) {
   try {
@@ -22,24 +20,32 @@ export async function POST(req) {
     const state = formData.get("state");
     const pincode = formData.get("pincode");
 
+    console.log("Form Data:", {
+      email,
+      phoneNumber,
+      firstName,
+      lastName,
+      dob,
+      gender,
+      house,
+      street,
+      locality,
+      city,
+      state,
+      pincode,
+    });
+
     if (!email || !phoneNumber || !firstName || !lastName || !dob || !gender || !house || !street || !locality || !city || !state || !pincode) {
       return NextResponse.json({ success: false, message: "Missing fields" }, { status: 400 });
     }
 
-    // 🟢 Image Upload
-    const imageFile = formData.get("avatar");
-    let imageName = null;
-
-    if (imageFile && imageFile.name) {
-      const bytes = await imageFile.arrayBuffer();
-      imageName = `${Date.now()}-${imageFile.name}`;
-      const imagePath = path.join(process.cwd(), "public/uploads", imageName);
-      await writeFile(imagePath, Buffer.from(bytes));
-    }
-
-    // 🟢 MongoDB से कनेक्ट करें
+    // 🟢 Image Upload to Cloudinary
+    const avatar = formData.get("avatar");  // Avatar URL should be received here
+    console.log("Avatar URL received in backend:", avatar);
+    
+    // 🟢 MongoDB se कनेक्ट करें
     const { db } = await connectToDatabase();
-
+    
     // 🟢 प्रोफाइल अपडेट करो या नया बनाओ
     const updatedProfile = await db.collection("profiles").findOneAndUpdate(
       { phoneNumber },
@@ -51,7 +57,7 @@ export async function POST(req) {
             name: `${firstName} ${lastName}`,
             dob,
             gender,
-            avatar: imageName,
+            avatar: avatar || null,  // Avoid overriding with null
           },
           address: {
             house,
@@ -65,7 +71,11 @@ export async function POST(req) {
       },
       { upsert: true, returnDocument: "after" }
     );
-
+    
+    console.log("Updated Profile:", updatedProfile);
+    
+    return NextResponse.json({ success: true, message: "Profile updated successfully", profile: updatedProfile });
+    
     return NextResponse.json({ success: true, message: "Profile updated successfully", profile: updatedProfile });
 
   } catch (error) {

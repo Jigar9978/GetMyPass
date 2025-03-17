@@ -1,10 +1,13 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FaDownload, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import ReactQRCode from 'react-qr-code';
 import { motion } from 'framer-motion';
 import Image from "next/image";
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const generateBookingCode = () => {
   return "BOOK-" + Math.random().toString(36).substring(2, 10).toUpperCase();
@@ -18,9 +21,9 @@ export default function TicketPage() {
   const [expandedTickets, setExpandedTickets] = useState({});
   const [rating, setRating] = useState(0);
   const [formData, setFormData] = useState({
-      firstName: "",
-      lastName: "",
-      description: "",
+    firstName: "",
+    lastName: "",
+    description: "",
   });
 
 
@@ -33,24 +36,24 @@ export default function TicketPage() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-};
+  };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
+    try {
       const response = await fetch("/api/reviews", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-              firstName: formData.firstName,
-              lastName: formData.lastName,
-              description: formData.description,
-              rating,
-              source: "user",
-          }),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          description: formData.description,
+          rating,
+          source: "user",
+        }),
       });
 
       const textResponse = await response.text();
@@ -59,23 +62,23 @@ const handleSubmit = async (e) => {
       const result = textResponse ? JSON.parse(textResponse) : {};
 
       if (response.ok) {
-          alert("Review Submitted Successfully!");
+        alert("Review Submitted Successfully!");
 
-          // Reset form fields and rating
-          setFormData({
-              firstName: "",
-              lastName: "",
-              description: "",
-          });
-          setRating(0);
+        // Reset form fields and rating
+        setFormData({
+          firstName: "",
+          lastName: "",
+          description: "",
+        });
+        setRating(0);
       } else {
-          alert("Failed to submit review: " + (result.message || "Unknown error"));
+        alert("Failed to submit review: " + (result.message || "Unknown error"));
       }
-  } catch (error) {
+    } catch (error) {
       console.error(error);
       alert("An error occurred while submitting the review.");
-  }
-};
+    }
+  };
 
 
 
@@ -155,6 +158,44 @@ const handleSubmit = async (e) => {
     );
   }
 
+  const handleDownload = async (ticketId) => {
+    console.log("Downloading ticket with ID:", ticketId);
+
+    const ticketElement = document.getElementById(`ticket-${ticketId}`);
+    if (!ticketElement) {
+        alert(`Ticket not found! ID: ${ticketId}`);
+        return;
+    }
+
+    // 🟢 Capture ticket as high-quality image
+    const canvas = await html2canvas(ticketElement, {
+        scale: 2, 
+        useCORS: true, 
+        backgroundColor: null 
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+
+    // 🟢 PDF height dynamically calculate karein
+    const imgWidth = 190; // A4 width
+    const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+    // PDF ki height ko adjust karna
+    const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: [imgWidth + 20, imgHeight + 20] // Height ko dynamic bana diya
+    });
+
+    pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+    pdf.save(`ticket-${ticketId}.pdf`);
+};
+
+
+if (loading) return <p>Loading...</p>;
+if (error) return <p>Error: {error}</p>;
+
+
   return (
     <div className="min-h-[495px] flex items-center justify-center p-4">
       {!showFullTicket ? (
@@ -176,33 +217,33 @@ const handleSubmit = async (e) => {
         </div>
       ) : (
         <div>
-            <div className="flex flex-col items-center justify-center text-center py-10 relative">
-      {/* Background Text */}
-      <motion.div
-        initial={{ opacity: 0.2, y: 0 }}
-        animate={{ opacity: 0.3, y: 0 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="absolute text-6xl md:text-8xl font-extrabold text-purple-300 uppercase tracking-widest select-none"
-        style={{ letterSpacing: '0.1em', zIndex: 0 }}
-      >
-        GETMYPASS
-      </motion.div>
-      
-      {/* Foreground Text */}
-      <motion.h1
-        initial={{ opacity: 0, y: 0 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: 'easeOut' }}
-        className="relative z-10 text-4xl md:text-6xl font-bold text-purple-500 script-font"
-        style={{ fontFamily: 'Dancing Script, cursive', fontWeight: '700' }}
-      >
-        My Tickets
-      </motion.h1>
-    </div>
+          <div className="flex flex-col items-center justify-center text-center py-10 relative">
+            {/* Background Text */}
+            <motion.div
+              initial={{ opacity: 0.2, y: 0 }}
+              animate={{ opacity: 0.3, y: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="absolute text-6xl md:text-8xl font-extrabold text-purple-300 uppercase tracking-widest select-none"
+              style={{ letterSpacing: '0.1em', zIndex: 0 }}
+            >
+              GETMYPASS
+            </motion.div>
+
+            {/* Foreground Text */}
+            <motion.h1
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: 'easeOut' }}
+              className="relative z-10 text-4xl md:text-6xl font-bold text-purple-500 script-font"
+              style={{ fontFamily: 'Dancing Script, cursive', fontWeight: '700' }}
+            >
+              My Tickets
+            </motion.h1>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {tickets.map((ticket) => (
-              <div key={ticket._id} className="bg-purple-300 relative w-full max-w-sm rounded-3xl shadow-xl">
+              <div key={ticket._id} id={`ticket-${ticket._id.toString()}`} className="bg-purple-300 relative w-full max-w-sm rounded-3xl shadow-xl">
                 <div className="right-curve"></div>
                 <div className="left-curve"></div>
                 <div id="ticket-content" className="relative p-4 rounded-3xl shadow-md overflow-hidden">
@@ -210,12 +251,12 @@ const handleSubmit = async (e) => {
                     𝐆𝐄𝐓𝐌𝐘𝐏𝐀𝐒𝐒
                   </h1>
 
-                  <Image  width={500}
-  height={128} src={ticket.eventImage} alt="Event Poster" className="object-cover w-full h-36 rounded-[20px] shadow-xl" />
+                  <Image width={500}
+                    height={128} src={ticket.eventImage} alt="Event Poster" className="object-cover w-full h-36 rounded-[20px] shadow-xl" />
 
                   <div className="mt-3 flex justify-between items-center px-6">
                     <h1 className="text-xl font-extrabold">{ticket.eventName}</h1>
-                    <button onClick={() => handleDownload(ticket._id)} className="flex items-center gap-2 px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all">
+                    <button onClick={() => handleDownload(ticket._id.toString())} className="flex items-center gap-2 px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all">
                       <FaDownload />
                     </button>
                   </div>
@@ -309,71 +350,71 @@ const handleSubmit = async (e) => {
 
           </div>
           <div className="flex flex-col md:flex-row justify-center items-center min-h-screen p-6">
-      {/* Review Form */}
-      <div className="bg-purple-200 p-6 rounded-lg shadow-xl w-full md:w-auto flex">
-        <div className="max-w-lg">
-          <h2 className="text-2xl font-bold text-gray-700 text-center">User Review</h2>
+            {/* Review Form */}
+            <div className="bg-purple-200 p-6 rounded-lg shadow-xl w-full md:w-auto flex">
+              <div className="max-w-lg">
+                <h2 className="text-2xl font-bold text-gray-700 text-center">User Review</h2>
 
-          <form className="mt-4" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                type="text"
-                name="firstName"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-                className="p-3 border rounded-lg w-full text-gray-900"
-              />
-              <input
-                type="text"
-                name="lastName"
-                placeholder="Last Name"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-                className="p-3 border rounded-lg w-full text-gray-900"
-              />
+                <form className="mt-4" onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      name="firstName"
+                      placeholder="First Name"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      required
+                      className="p-3 border rounded-lg w-full text-gray-900"
+                    />
+                    <input
+                      type="text"
+                      name="lastName"
+                      placeholder="Last Name"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      required
+                      className="p-3 border rounded-lg w-full text-gray-900"
+                    />
+                  </div>
+                  <textarea
+                    name="description"
+                    placeholder="Review Description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 border rounded-lg mt-4 h-24 text-gray-900"
+                  ></textarea>
+
+                  {/* Star Rating */}
+                  <div className="mt-4 flex justify-center space-x-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span
+                        key={star}
+                        className={`text-3xl cursor-pointer ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
+                        onClick={() => setRating(star)}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    className="w-full bg-purple-600 text-white p-3 rounded-lg mt-4 transition-all"
+                  >
+                    Submit Review
+                  </button>
+                </form>
+              </div>
+
+              {/* Image Section */}
+              <div className="w-auto flex items-center ml-5">
+                <Image width={300}
+                  height={128} src="/review1.png" alt="Review Illustration" className="h-full max-h-96 rounded-lg shadow-lg" />
+              </div>
             </div>
-            <textarea
-              name="description"
-              placeholder="Review Description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              className="w-full p-3 border rounded-lg mt-4 h-24 text-gray-900"
-            ></textarea>
-
-            {/* Star Rating */}
-            <div className="mt-4 flex justify-center space-x-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <span
-                  key={star}
-                  className={`text-3xl cursor-pointer ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
-                  onClick={() => setRating(star)}
-                >
-                  ★
-                </span>
-              ))}
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-purple-600 text-white p-3 rounded-lg mt-4 transition-all"
-            >
-              Submit Review
-            </button>
-          </form>
-        </div>
-
-        {/* Image Section */}
-        <div className="w-auto flex items-center ml-5">
-          <Image  width={300} 
-  height={128} src="/review1.png" alt="Review Illustration" className="h-full max-h-96 rounded-lg shadow-lg" />
-        </div>
-      </div>
-    </div>
+          </div>
         </div>
       )}
       <style jsx>{`

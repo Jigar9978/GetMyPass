@@ -68,29 +68,32 @@ export default function Navbar() {
         console.error("No phone number found in cookies.");
         return;
       }
-
+  
       const response = await fetch(`/api/get-profile?phoneNumber=${phoneNumber}`, {
         method: "GET",
       });
-
+  
       const data = await response.json();
-
+  
       if (data.success && data.profile) {
         const profileDetails = data.profile.profileDetails;
         if (profileDetails) {
           console.log("Profile details:", profileDetails);
-          const avatarPath = profileDetails.avatar
-            ? `/uploads/${profileDetails.avatar.replace(/\s+/g, "%20")}`
-            : "/avtar.jpg";
-
-          setUserAvatar(avatarPath);
-          setUserName(profileDetails.name || "User");
+          
+          // Directly use the Cloudinary URL
+          const avatarUrl = profileDetails.avatar
+            ? profileDetails.avatar
+            : "/avtar.jpg"; // Fallback to default image if no avatar
+  
+          setUserAvatar(avatarUrl); // Set avatar to the Cloudinary URL or default
+          setUserName(profileDetails.name || "User"); // Set name or fallback to "User"
         }
       }
     } catch (error) {
       console.error("Failed to fetch user profile:", error);
     }
-  }, []); // Correctly providing empty array here to memoize function
+  }, []);
+  
 
   useEffect(() => {
     const storedLoginState = localStorage.getItem("isLoggedIn");

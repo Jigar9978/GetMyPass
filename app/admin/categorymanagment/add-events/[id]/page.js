@@ -222,7 +222,7 @@ const AddEvent = () => {
                                     <strong>Location:</strong> {event.location}
                                 </p>
                                 <p>
-                                    <strong>Price:</strong> ${event.price}
+                                    <strong>Price:</strong> ₹.{event.price}
                                 </p>
                                 <p>
                                     <strong>Event AddDiscription:</strong> ${event.adddiscripition}
