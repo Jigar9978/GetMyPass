@@ -36,20 +36,19 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div className="bg-gray-100">
+    <div className='bg-gray-50'>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gray-300 px-4 sm:px-8">
-        <Image src="/get.jpg" alt="3 Students" layout="fill" objectFit="cover" className="absolute inset-0" />
-        <div className="absolute inset-0 bg-purple-400 bg-opacity-50"></div>
+      <section className="relative h-[500px] md:min-h-screen flex items-center justify-center px-1 sm:px-8">
+        <div className="absolute inset-0 bg-opacity-50"></div>
         <div className="relative text-white text-center px-4">
-          <h1 className="text-3xl sm:text-5xl font-bold text-purple-800 mb-6 sm:mb-10">About Us</h1>
-          <h1 className="text-2xl sm:text-4xl font-bold">Meet Our Founders</h1>
-          <p className="mt-2 sm:mt-3 text-base sm:text-lg">The minds behind GetMyPass</p>
+          <h1 className="text-3xl sm:text-5xl font-bold text-purple-900 mb-6 sm:mb-10">About Us</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-purple-800">Meet Our Founders</h1>
+          <p className="mt-2 sm:mt-3 text-base sm:text-lg text-purple-800">The minds behind GetMyPass</p>
           <div className="mt-6 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-8">
             {["Jigar Gavle", "Prinsi Pujara", "Krisha Shah"].map((name, index) => (
               <div key={index}>
-                <h2 className="text-xl sm:text-2xl font-semibold">{name}</h2>
-                <p className="text-sm">Co-Founder</p>
+                <h2 className="text-xl sm:text-2xl font-semibold text-purple-800">{name}</h2>
+                <p className="text-sm text-purple-800">Co-Founder</p>
               </div>
             ))}
           </div>
@@ -101,7 +100,7 @@ export default function AboutPage() {
       </section>
 
       {/* Testimonial Section */}
-      <section className="w-full max-w-5xl mx-auto p-6 bg-purple-100 rounded-lg shadow-lg">
+      <section className="w-full my-24 mx-auto max-w-5xl p-6 bg-purple-100 rounded-lg shadow-lg">
         <h2 className="text-center text-2xl sm:text-3xl font-bold mb-6">Our Team</h2>
         <div className="relative h-80 flex items-center justify-center">
           <AnimatePresence mode="wait">

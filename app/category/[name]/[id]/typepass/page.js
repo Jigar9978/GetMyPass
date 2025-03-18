@@ -179,7 +179,7 @@ export default function TicketBooking({ params }) {
                             )}
                             <div className="flex items-center gap-4 mt-4">
                                 <button
-                                    className="bg-[#49225B] text-white px-4 py-2 rounded-md"
+                                    className="bg-[#49225B] text-white px-4 py-2 rounded-full"
                                     onClick={() =>
                                         updateTicketCount(idx, true, ticket.contity)
                                     }
@@ -189,7 +189,7 @@ export default function TicketBooking({ params }) {
                                 </button>
                                 <span>{ticketCounts[idx]}</span>
                                 <button
-                                    className="bg-[#49225B] text-white px-4 py-2 rounded-md"
+                                    className="bg-[#49225B] text-white px-4 py-2 rounded-full"
                                     onClick={() =>
                                         updateTicketCount(idx, false, ticket.contity)
                                     }

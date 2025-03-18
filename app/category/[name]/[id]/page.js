@@ -299,10 +299,10 @@ export default function CardDetailsPage({ params }) {
       </div>
 
       {/* Fixed Price and Book Pass Button */}
-      <div className="fixed bottom-0 left-0 w-full bg-purple-800 text-white flex justify-between items-center px-6 py-2">
+      <div className="fixed bottom-0 left-0 w-full bg-[#a355b8] text-white flex justify-between items-center px-6 py-2">
         <div className="text-lg font-semibold">₹ {card.price} onwards</div>
 
-        <button onClick={handleBookNow} className="book-pass-btn bg-white text-purple-800 border-2 border-purple-800 px-6 py-2 rounded-lg font-medium transform transition-all duration-300 hover:scale-105 hover:bg-purple-800 hover:text-white">
+        <button onClick={handleBookNow} className="book-pass-btn bg-white text-purple-800 px-6 py-2 rounded-lg font-medium transform transition-all duration-300 hover:scale-105 hover:bg-purple-400 hover:text-white">
           BOOK PASS
         </button>
 

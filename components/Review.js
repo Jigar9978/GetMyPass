@@ -4,7 +4,7 @@ import { FaStar } from 'react-icons/fa';
 
 const Review = () => {
     return (
-      <div className="pt-20 pb-20 flex items-center justify-center flex-col bg-purple-600 m-2 md:rounded-lg lg:rounded-full">
+      <div className="pt-20 pb-20 flex items-center justify-center flex-col bg-gradient-to-b from-[#643d6e] to-[#a982b4] m-2 md:rounded-lg lg:rounded-full">
         <div className="w-[80%] mx-auto grid items-center grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Text Content */}
           <div>
@@ -12,9 +12,7 @@ const Review = () => {
               What our customers are saying us?
             </h1>
             <p className="mt-6 text-gray-200">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam
-              nesciunt fugiat praesentium dolores facilis delectus modi culpa
-              aliquid deserunt ad!
+            Your feedback helps us improve! Share your experience and let us know how we can serve you better.We appreciate your insights and look forward to hearing from you.
             </p>
             
           {/* Ratings */}

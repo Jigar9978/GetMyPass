@@ -34,7 +34,7 @@ export default function EventsPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto py-10">
+    <div className="max-w-6xl mx-3 md:mx-auto py-10">
       <h1 className="text-3xl font-bold text-center mb-8">All Events</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {events.map((event) => (
@@ -55,10 +55,10 @@ export default function EventsPage() {
               <div className="flex justify-between items-center mt-3">
                 <div className="flex items-center">
                   <FaRupeeSign className="text-gray-700" />
-                  <p className="ml-1 text-lg font-bold">{event.price}</p>
+                  <p className="ml-0.5 text-lg font-bold">{event.price}</p>
                 </div>
                 <Link href={`/category/${event.category}/${event.title}`}>
-                  <button className="py-1.5 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none">
+                  <button className="py-1.5 px-4 bg-[#a355b8] text-white rounded-md focus:outline-none">
                     Buy Now
                   </button>
                 </Link>

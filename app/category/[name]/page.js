@@ -45,12 +45,12 @@ export default async function CategoryPage({ params }) {
               </div>
               <div className="px-3 py-2 flex justify-between items-center mt-2 border-t border-gray-200">
                 <div className="flex items-center">
-                  <FaRupeeSign className="text-lg text-black mt-1" />
-                  <p className="text-lg text-black ml-2">{event.price}</p>
+                  <FaRupeeSign className="text-lg text-black" />
+                  <p className="text-lg text-black font-bold mt-0.5">{event.price}</p>
                 </div>
                 <div>
                   <Link href={`/category/${name}/${event.title}`}>
-                    <button className="py-1.5 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none">
+                    <button className="py-1.5 px-4 bg-[#a355b8] text-white rounded-md focus:outline-none">
                       Buy Now
                     </button>
                   </Link>

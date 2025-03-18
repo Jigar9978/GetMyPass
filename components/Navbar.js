@@ -235,7 +235,7 @@ export default function Navbar() {
                   <Link href="/events" className="hover:text-[#a355b8] transition-transform duration-300 group-hover:scale-90">Events</Link>
                 </li>
                 <li className="md:px-4 md:py-2 font-bold relative group">
-                  <Link href="/about" className="hover:text-[#a355b8] transition-transform duration-300 group-hover:scale-90">About</Link>
+                  <Link href="/about" className="hover:text-[#a355b8] transition-transform duration-300 group-hover:scale-90">About Us</Link>
                 </li>
                 <li className="md:px-4 md:py-2 font-bold relative group">
                   <button onClick={openPopup} className="hover:text-[#a355b8] transition-transform duration-300 group-hover:scale-90">List Your Event</button>
