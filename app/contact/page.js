@@ -21,7 +21,7 @@ export default function ContactPage() {
             CONTACT US
           </h2>
           <p className="max-w-xl mt-3 text-sm md:text-base text-purple-600">
-            We're Here for You – Contact Our Support Team Today
+            We&apos;re Here for You - Contact Our Support Team Today
           </p>
         </motion.div>
       </section>
