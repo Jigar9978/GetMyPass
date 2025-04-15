@@ -100,56 +100,81 @@ export default function OTPLoginModal({ closeModal, handleLogin }) {
         <h2 className="text-2xl font-semibold mb-4 text-center text-black">OTP Login</h2>
 
         {step === 1 && (
-          <div>
-            <input
-              type="text"
-              placeholder="Enter phone number (+123456789)"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              className="w-full p-3 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <div className="flex justify-between mt-4">
-              <button
-                onClick={closeModal}
-                className="text-red-500 font-semibold"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={sendOTP}
-                disabled={!isValidPhoneNumber(phoneNumber)}
-                className={`px-6 py-2 rounded-md font-medium ${isValidPhoneNumber(phoneNumber) ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-600 cursor-not-allowed"}`}
-              >
-                Send OTP
-              </button>
-            </div>
+          <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-xl shadow-lg p-6 space-y-4"
+        >
+          <h2 className="text-2xl font-bold text-blue-600 text-center">Enter Your Phone Number</h2>
+          
+          <input
+            type="text"
+            placeholder="Enter phone number (+123456789)"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            className="w-full p-3 text-black border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          />
+        
+          <div className="flex justify-between mt-4">
+            <button
+              onClick={closeModal}
+              className="text-red-500 font-semibold hover:underline transition"
+            >
+              Cancel
+            </button>
+            <motion.button
+              whileHover={{ scale: isValidPhoneNumber(phoneNumber) ? 1.05 : 1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={sendOTP}
+              disabled={!isValidPhoneNumber(phoneNumber)}
+              className={`px-6 py-2 rounded-lg font-medium transition duration-300 ${
+                isValidPhoneNumber(phoneNumber)
+                  ? "bg-blue-600 text-white hover:bg-blue-700"
+                  : "bg-gray-300 text-gray-600 cursor-not-allowed"
+              }`}
+            >
+              Send OTP
+            </motion.button>
           </div>
+        </motion.div>
         )}
 
         {step === 2 && (
-          <div>
-            <input
-              type="text"
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              className="w-full text-black p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <div className="flex justify-between mt-4">
-              <button
-                onClick={closeModal}
-                className="text-red-500 font-semibold"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={verifyOTP}
-                className="bg-green-500 text-white px-6 py-2 rounded-md"
-              >
-                Verify OTP
-              </button>
-            </div>
+          <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-xl shadow-lg p-6 space-y-4"
+        >
+          <h2 className="text-2xl font-bold text-green-600 text-center">Verify OTP</h2>
+          
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            className="w-full p-3 text-black border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          />
+        
+          <div className="flex justify-between mt-4">
+            <button
+              onClick={closeModal}
+              className="text-red-500 font-semibold hover:underline transition"
+            >
+              Cancel
+            </button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={verifyOTP}
+              className="bg-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition"
+            >
+              Verify OTP
+            </motion.button>
           </div>
+        </motion.div>
+        
         )}
       </motion.div>
 

@@ -82,7 +82,7 @@ export default function FinalPrice() {
         order_id: orderId,
         name: eventName,
         description: "Event Ticket Payment",
-        image: "/i2.jpg",
+        image: "/logooo.jpg",
         handler: async function (response) {
           try {
             const ticketRes = await fetch('/api/save-ticket', {
