@@ -76,7 +76,7 @@ export default function FinalPrice() {
       const { orderId } = await res.json();
 
       const options = {
-        key: process.env.RAZORPAY_KEY_ID,
+        key: "rzp_test_oK9ms9j0Fr42gA", // ✅ fixed this line
         amount: totalPrice * 100,
         currency: "INR",
         order_id: orderId,
@@ -103,14 +103,14 @@ export default function FinalPrice() {
                 paymentId: response.razorpay_payment_id,
               }),
             });
-
+      
             const data = await ticketRes.json();
             console.log("Ticket Saved:", data);
             if (!ticketRes.ok) {
               console.error("Error:", data.error);
               return;
             }
-
+      
             console.log("Ticket Saved:", data.ticket);
             router.push(`/tickets`);
           } catch (error) {
@@ -126,6 +126,7 @@ export default function FinalPrice() {
           color: "#4a90e2",
         },
       };
+      
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();

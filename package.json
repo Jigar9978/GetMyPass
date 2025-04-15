@@ -39,7 +39,7 @@
     "node-cron": "^3.0.3",
     "otp-input-react": "^0.3.0",
     "qrcode.react": "^4.2.0",
-    "razorpay": "^2.9.5",
+    "razorpay": "^2.9.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-firebase-hooks": "^5.1.1",
